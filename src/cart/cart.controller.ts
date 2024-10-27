@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, ParseIntPipe, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from "@nestjs/common";
 import { CartService } from "./cart.service";
 import { AddCartItemDto } from "./dto/create.cart-item.dto";
 import { GetUser } from "../auth/decorator/get-user.decorator";
@@ -17,13 +17,19 @@ export class CartController {
 
   @UseGuards(AuthenticatedGuard)
   @Delete('remove/:id')
-  deleteCartItem(@Param('id', ParseIntPipe) id: number) {
-    return this.cartService.deleteCartItem(id)
+  deleteCartItem(@Param('id', ParseIntPipe) id: number, @GetUser('id') userId: number) {
+    return this.cartService.deleteCartItem(id, userId)
   }
 
   @UseGuards(AuthenticatedGuard)
   @Patch('edit/:id')
   editCartItem(@Param('id', ParseIntPipe) cartItemId: number, @Body() dto: EditCartItemDto, @GetUser('id') userId: number) {
     return this.cartService.editCartItemQuantity(dto, cartItemId)
+  }
+
+  @UseGuards(AuthenticatedGuard)
+  @Get('me')
+  getUserCart(@GetUser('id') userId: number) {
+    return this.cartService.getUserCart(userId)
   }
 }
