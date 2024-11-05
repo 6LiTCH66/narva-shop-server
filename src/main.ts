@@ -6,6 +6,7 @@ import * as session from "express-session";
 import { PrismaClient } from "@prisma/client";
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 import * as passport from "passport";
+import { config } from "rxjs";
 
 
 async function bootstrap() {
@@ -14,6 +15,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({whitelist: true, transform: true}))
 
   const prisma = new PrismaClient();
+  app.enableCors({
+    allowedHeaders: ["Authorization", 'Content-Type'],
+    origin: true,
+    credentials: true
+  })
 
   app.use(
     session({
@@ -21,7 +27,7 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        maxAge: 3600000,
+        maxAge: 3600000 * 24,
       },
       store: new PrismaSessionStore(
         prisma,

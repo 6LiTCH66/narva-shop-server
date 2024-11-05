@@ -2,7 +2,7 @@ import { IsArray, IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator
 import { Type } from "class-transformer";
 
 
-enum Size{
+export enum Size{
   XS = 'XS',
   S = 'S',
   M = 'M',

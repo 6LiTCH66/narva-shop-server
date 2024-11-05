@@ -53,7 +53,8 @@ export class CartService {
         where: {
           cartItems: {
             some: {
-              productId: dto.productId
+              productId: dto.productId,
+              size: dto.size
             }
           },
           userId: userId
@@ -61,7 +62,8 @@ export class CartService {
         select: {
           cartItems: {
             where: {
-              productId: dto.productId
+              productId: dto.productId,
+              size: dto.size
             }
           }
         }
@@ -70,7 +72,6 @@ export class CartService {
 
       // Duplicate found
       if(someDuplicatesInUserCart){
-
         // Getting product quantity and selecting only quantity field
         const productQuantity = await this.prisma.product.findFirst({
           where: {
@@ -84,7 +85,7 @@ export class CartService {
 
         const duplicate = someDuplicatesInUserCart.cartItems[0]
 
-        if((duplicate.quantity + dto.quantity) < productQuantity.quantity){
+        if(dto.quantity <= productQuantity.quantity){
 
           await this.prisma.product.update({
             where: {
@@ -246,6 +247,8 @@ export class CartService {
       select: {
         cartItems: {
           select: {
+            id: true,
+            size: true,
             product: true,
             quantity: true
           }
