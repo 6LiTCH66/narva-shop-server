@@ -52,7 +52,7 @@ async function fetchFashionImagesAndNames(count = 1) {
 
 async function main(){
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     const imageAndName = await fetchFashionImagesAndNames()
     const randomLength = faker.number.int({ min: 2, max: 7 });
 

@@ -8,6 +8,7 @@ const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 import * as passport from "passport";
 import { config } from "rxjs";
 
+const port = process.env.PORT || 3000;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +16,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({whitelist: true, transform: true}))
 
   const prisma = new PrismaClient();
+
   app.enableCors({
     allowedHeaders: ["Authorization", 'Content-Type'],
     origin: true,
@@ -41,6 +43,6 @@ async function bootstrap() {
 
   app.use(passport.initialize())
   app.use(passport.session())
-  await app.listen(3000);
+  await app.listen(port, "0.0.0.0");
 }
 bootstrap();

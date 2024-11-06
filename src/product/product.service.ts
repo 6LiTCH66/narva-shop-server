@@ -17,7 +17,11 @@ export class ProductService {
   }
 
   async getAllProducts(){
-    return this.prisma.product.findMany()
+    return this.prisma.product.findMany({
+      orderBy: {
+        createdAt: "asc",
+      }
+    })
   }
 
   async getProductDetails(productId: number){

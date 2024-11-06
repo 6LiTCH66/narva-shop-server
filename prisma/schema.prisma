@@ -48,6 +48,7 @@ model CartItems {
   size      SizeVariants @default(XS)
   productId Int
   product   Product      @relation(fields: [productId], references: [id])
+  createdAt DateTime     @default(now())
 }
 
 model Product {
@@ -59,6 +60,7 @@ model Product {
   quantity    Int
   size        SizeVariants[] @default([XS, S, M, L, XL, XXL])
   cartItems   CartItems[]
+  createdAt   DateTime       @default(now())
 }
 
 model Session {

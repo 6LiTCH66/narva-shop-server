@@ -251,9 +251,13 @@ export class CartService {
             size: true,
             product: true,
             quantity: true
+          },
+          orderBy: {
+            createdAt: "asc",
           }
         }
-      }
+      },
+
     })
   }
 }
